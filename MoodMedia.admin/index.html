@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Main Bootstrap 5 import -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+
+    <title>Admin Panel</title>
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <nav-component v-model:login="login"></nav-component>
+      </header>
+      <div class="container">
+        <div v-if="authenticated">
+          <menu-component></menu-component>
+        </div>
+        <div v-else>
+          <login-component></login-component>
+        </div>
+        <div v-if="adminSettings">
+          <admin-component></admin-component>
+        </div>
+      </div>
+    </div>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="main.js"></script>
+    <script src="sensorSeed.js"></script>
+    <script src="./Components/navComponent.js"></script>
+    <script src="./Components/sensorDataComponent.js"></script>
+    <script src="./Components/graphsComponent.js"></script>
+    <script src="./Components/adminComponent.js"></script>
+    <script src="./Components/loginComponent.js"></script>
+    <script src="./Components/menuComponent.js"></script>
+    <script src="./Components/buttonComponent.js"></script>
+
+    <!-- Chart components -->
+    <script src="./Components/Charts/temperatureChart.js"></script>
+    <script src="./Components/Charts/pressureChart.js"></script>
+    <script src="./Components/Charts/humidityChart.js"></script>
+
+    <!-- User Activity -->
+    <script src="./Components/usageComponent.js"></script>
+  
+    <!-- <script src="./Components/Charts/usercharts-component.js"></script> -->
+    <script>
+      const mountedApp = app.mount("#app");
+    </script>
+    
+  </body>
+</html>

@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Main Bootstrap 5 import -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <title>Document</title>
+  </head>
+  <body class="bg-dark">
+    <div class="container-fluid">
+      <div id="app" class="w-100">
+        <header>
+          <nav-component @activity="RecordActivity" v-bind:login="login"></nav-component>
+        </header>
+
+        <!-- Weather Components -->
+        <div v-if="login">
+          <!--<div v-if="rain">
+            <rain-component></rain-component>
+          </div>
+          <div class="position-relative top-0 start-0" v-else>
+            <sun-component></sun-component>
+          </div>-->
+          <div
+            class="
+              d-flex
+              flex-column
+              justify-content-center
+              align-items-center
+              vh-100
+            "
+          >
+            <mood-component @activity="RecordActivity"></mood-component>
+
+            <!-- <media-component></media-component> -->
+            <section>
+              <h2 class="text-white text-center">Song</h2>
+              <p class="lead text-white text-center">Artist</p>
+              <button class="btn btn-outline-secondary me-2" @click="back">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="30"
+                  fill="white"
+                  class="bi bi-skip-start"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M4 4a.5.5 0 0 1 1 0v3.248l6.267-3.636c.52-.302 1.233.043 1.233.696v7.384c0 .653-.713.998-1.233.696L5 8.752V12a.5.5 0 0 1-1 0V4zm7.5.633L5.696 8l5.804 3.367V4.633z"
+                  />
+                </svg>
+              </button>
+              <button class="btn btn-outline-secondary" @click="playMusic()">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="50"
+                  height="50"
+                  fill="currentColor"
+                  class="bi bi-play"
+                  style="color: white"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"
+                  />
+                </svg>
+              </button>
+              <button class="btn btn-outline-secondary ms-2" @click="forward">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="30"
+                  fill="white"
+                  class="bi bi-skip-end"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M12.5 4a.5.5 0 0 0-1 0v3.248L5.233 3.612C4.713 3.31 4 3.655 4 4.308v7.384c0 .653.713.998 1.233.696L11.5 8.752V12a.5.5 0 0 0 1 0V4zM5 4.633 10.804 8 5 11.367V4.633z"
+                  />
+                </svg>
+              </button>
+            </section>
+          </div>
+        </div>
+        <div
+          v-else
+          class="d-flex justify-content-center align-items-center vh-100"
+        >
+          <!-- Login with spotify button -->
+          <section>
+            <button
+              id="spotifyButton"
+              class="btn btn-success btn-lg text-light"
+              @click="spotifyAuthentication()"
+              style="border-radius: 32px"
+            >
+              Spotify Login <i class="bi bi-spotify"></i>
+            </button>
+          </section>
+        </div>
+        <div class=""><p class="text-light">{{ user }}</p></div>
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="informationModal"
+          tabindex="-1"
+          aria-labelledby="informationModal"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header bg-dark">
+                <h5 class="modal-title text-light" id="informationModal">
+                  MoodMedia Introduction
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close btn-close-white"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body bg-dark">
+                <p class="text-light">
+                  Welcome to MoodMedia, an app designed to play your favorite
+                  music depending on the weather.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Option 2: Registration Form -->
+        <registration-component
+          v-if="spotifyLogin"
+          v-bind:key="user.id"
+          v-bind:id="user.id"
+          v-bind:username="user.display_name"
+          v-bind:email="user.email"
+          v-bind:picture="user.images[0].url"
+        ></registration-component>
+        <!-- Option 3: Playlist settings -->
+        <div v-if="playlistSettings">
+          <playlist-component
+            @activity="RecordActivity"
+            @set-mood-playlists="setMoodPlaylists"
+          ></playlist-component>
+        </div>
+      </div>
+    </div>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="seed.js"></script>
+    <script src="main.js"></script>
+    <script src="./VueComponents/mediaComponent.js"></script>
+    <script src="./VueComponents/registrationComponent.js"></script>
+    <script src="./VueComponents/navComponent.js"></script>
+    <script src="./seed.js"></script>
+    <script src="./VueComponents/moodComponent.js"></script>
+    <script src="./VueComponents/snowComponent.js"></script>
+    <script src="./VueComponents/rainComponent.js"></script>
+    <script src="./VueComponents/sunComponent.js"></script>
+    <script src="./VueComponents/sunCloudsComponent.js"></script>
+    <script src="./VueComponents/coldComponent.js"></script>
+    <script src="./VueComponents/freezingComponent.js"></script>
+    <script src="./VueComponents/rainEffect.js"></script>
+    <script src="./VueComponents/playlistComponent.js"></script>
+
+    <script>
+      const mountedApp = app.mount("#app");
+      // window.onSpotifyWebPlaybackSDKReady = () => {};
+    </script>
+  </body>
+</html>
